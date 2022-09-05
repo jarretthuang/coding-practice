@@ -1,6 +1,5 @@
 
-
-class LinkedListNode {
+export class LinkedListNode {
 
     public value: string;
 
@@ -33,13 +32,9 @@ class LinkedListNode {
 
 }
 
-const list = new LinkedListNode(["a", "b", "c"]);
-list.print();
-
-
 // rearrange a1 -> a2 -> a3...-> an -> b1 -> b2 -> b3...-> bn into
 // a1 -> b1 -> a2 -> b2...an -> bn
-function weave(list: LinkedListNode): LinkedListNode {
+export function weave(list: LinkedListNode): LinkedListNode {
     let slowPointer: LinkedListNode | undefined = list;
     let fastPointer: LinkedListNode | undefined = list.next;
     let result: string[] = [];
@@ -62,7 +57,3 @@ function weave(list: LinkedListNode): LinkedListNode {
     
     return new LinkedListNode(result);
 }
-
-
-const test = weave(new LinkedListNode(["a1", "a2", "a3", "b1", "b2", "b3"]));
-test.print();
