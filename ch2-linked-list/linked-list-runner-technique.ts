@@ -1,10 +1,24 @@
 
+
+/**
+ * Represents a linked list.
+ */
 export class LinkedListNode {
 
+    /**
+     * Value of current node
+     */
     public value: string;
 
+    /**
+     * Reference of next node. This could be undefined.
+     */
     public next?: LinkedListNode;
 
+    /**
+     * Builds a linked list from an array of strings.
+     * This is helpful for our testing later.
+     */
     constructor(arr: string[]) {
         if (arr.length === 1) {
             this.value = arr[0];
@@ -16,6 +30,9 @@ export class LinkedListNode {
         }
     }
 
+    /**
+     * Prints the list as an easily readable string.
+     */
     public print(): void {
         let currentNode: LinkedListNode = this;
         let result = currentNode.value;
@@ -32,8 +49,12 @@ export class LinkedListNode {
 
 }
 
-// rearrange a1 -> a2 -> a3...-> an -> b1 -> b2 -> b3...-> bn into
-// a1 -> b1 -> a2 -> b2...an -> bn
+/**
+ * 
+ * Rearrange a1 -> a2 -> a3...-> an -> b1 -> b2 -> b3...-> bn into
+ * a1 -> b1 -> a2 -> b2...an -> bn
+ * The input array has an arbitrary even length.
+ */
 export function weave(list: LinkedListNode): LinkedListNode {
     let slowPointer: LinkedListNode | undefined = list;
     let fastPointer: LinkedListNode | undefined = list.next;
@@ -42,12 +63,15 @@ export function weave(list: LinkedListNode): LinkedListNode {
     while (fastPointer) {
         slowPointer = slowPointer?.next;
         fastPointer = fastPointer.next?.next;
+        // Fast pointer goes 2 steps at a time so that by the time fast pointer is at the end of the array (bn),
+        // slow pointer is just in the middle (an).
     }
 
-    fastPointer = list;
+    fastPointer = list; // reset the fast pointer at the front of the array
     
     while (slowPointer) {
         if (fastPointer?.value && slowPointer.value) {
+            // start weaving
             result.push(fastPointer?.value);
             result.push(slowPointer.value);
         }
