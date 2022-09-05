@@ -1,0 +1,26 @@
+{
+  "name": "coding-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.ts",
+  "scripts": {
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=testEnv/jasmine.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarretthuang/coding-practice.git"
+  },
+  "author": "jarrett.huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jarretthuang/coding-practice/issues"
+  },
+  "homepage": "https://github.com/jarretthuang/coding-practice#readme",
+  "devDependencies": {
+    "@types/jasmine": "^4.3.0",
+    "@types/node": "^18.7.14",
+    "jasmine": "^4.4.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.2"
+  }
+}

@@ -31,9 +31,9 @@ export class LinkedListNode {
     }
 
     /**
-     * Prints the list as an easily readable string.
+     * Returns the list as an easily readable string.
      */
-    public print(): void {
+    public getJoinedString(): string {
         let currentNode: LinkedListNode = this;
         let result = currentNode.value;
 
@@ -43,8 +43,7 @@ export class LinkedListNode {
             currentNode = currentNode.next;
         }
 
-        console.log(result);
-
+        return result;
     }
 
 }
@@ -53,7 +52,7 @@ export class LinkedListNode {
  * 
  * Rearrange a1 -> a2 -> a3...-> an -> b1 -> b2 -> b3...-> bn into
  * a1 -> b1 -> a2 -> b2...an -> bn
- * The input array has an arbitrary even length.
+ * The input array has an arbitrary EVEN length.
  */
 export function weave(list: LinkedListNode): LinkedListNode {
     let slowPointer: LinkedListNode | undefined = list;
