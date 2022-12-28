@@ -7,6 +7,6 @@
     "failSpecWithNoExpectations": true,
     "stopSpecOnExpectationFailure": false,
     "stopOnSpecFailure": false,
-    "random": false
+    "random": true
   }
 }
