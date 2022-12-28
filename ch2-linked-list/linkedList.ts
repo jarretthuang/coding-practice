@@ -89,17 +89,5 @@ export function weave(list: LinkedListNode): LinkedListNode {
  * Do this without a temporary buffer.
  */
 export function removeDuplicatesFrom(list: LinkedListNode): LinkedListNode {
-  if (list.next) {
-    const removeDuplicatesFromTail: LinkedListNode = removeDuplicatesFrom(
-      list.next
-    );
-    const tailElements: Set<string> = new Set(removeDuplicatesFromTail.toArray);
-    if (tailElements.has(list.value)) {
-      return list.next;
-    } else {
-      return list;
-    }
-  } else {
-    return list;
-  }
+  return new LinkedListNode([...new Set(list.toArray)]);
 }
