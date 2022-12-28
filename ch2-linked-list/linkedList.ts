@@ -47,6 +47,7 @@ export class LinkedListNode {
     }
 
     return result;
+    // T(n) = O(n), S(n) = O(n)
   }
 }
 
@@ -59,7 +60,7 @@ export class LinkedListNode {
 export function weave(list: LinkedListNode): LinkedListNode {
   let slowPointer: LinkedListNode | undefined = list;
   let fastPointer: LinkedListNode | undefined = list.next;
-  let result: string[] = [];
+  let result: string[] = []; //TODO do this with S(n) = O(1)?
 
   while (fastPointer) {
     slowPointer = slowPointer?.next;
@@ -90,4 +91,45 @@ export function weave(list: LinkedListNode): LinkedListNode {
  */
 export function removeDuplicatesFrom(list: LinkedListNode): LinkedListNode {
   return new LinkedListNode([...new Set(list.toArray)]);
+  // T(n) = O(n), S(n) = O(n)
+}
+
+/**
+ * [CTCI-P94-2.2]
+ * Return k-th to last element.
+ */
+export function returnKthToLast(list: LinkedListNode, k: number): string {
+  const array: string[] = list.toArray;
+  if (k > array.length) {
+    throw new Error("Linked list has less than k elements!");
+  } else if (k < 1) {
+    throw new Error("K needs to be a positive number!");
+  } else {
+    return array.slice(-k)[0];
+  }
+  // T(n) = O(n), S(n) = O(n)
+}
+
+/**
+ * [CTCI-P94-2.2] Optimal solution using pointers instead of arrays.
+ * Return k-th to last element.
+ */
+export function returnKthToLastFast(list: LinkedListNode, k: number): string {
+  let slowPointer: LinkedListNode = list;
+  let fastPointer: LinkedListNode = list;
+
+  for (let i = 0; i < k; i++) {
+    if (!fastPointer) {
+      throw new Error("Linked list has less than k elements!");
+    }
+    fastPointer = fastPointer.next;
+  }
+
+  while (fastPointer) {
+    fastPointer = fastPointer.next;
+    slowPointer = slowPointer.next;
+  }
+
+  return slowPointer.value;
+  // T(n) = O(n), S(n) = O(1)
 }

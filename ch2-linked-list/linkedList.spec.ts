@@ -1,4 +1,10 @@
-import { LinkedListNode, removeDuplicatesFrom, weave } from "./linkedList";
+import {
+  LinkedListNode,
+  removeDuplicatesFrom,
+  returnKthToLast,
+  returnKthToLastFast,
+  weave,
+} from "./linkedList";
 
 describe("Linked list", () => {
   it("should properly implement linked list", () => {
@@ -14,7 +20,7 @@ describe("Linked list", () => {
     expect(testList.next?.next?.value).toEqual(thirdItem);
   });
 
-  it("weave function should rearrange items correctly", () => {
+  it("weave", () => {
     const testArray: string[] = ["a1", "a2", "a3", "b1", "b2", "b3"];
     const testList: LinkedListNode = new LinkedListNode(testArray);
     const wovenList: LinkedListNode = weave(testList);
@@ -22,11 +28,24 @@ describe("Linked list", () => {
     expect(wovenList.toArray).toEqual(["a1", "b1", "a2", "b2", "a3", "b3"]);
   });
 
-  it("removeDuplicatesFrom function should remove duplicates", () => {
+  it("removeDuplicatesFrom", () => {
     const testArray: string[] = ["a1", "a2", "a3", "a1", "a2", "a4"];
     const testList: LinkedListNode = new LinkedListNode(testArray);
     const result: LinkedListNode = removeDuplicatesFrom(testList);
 
     expect(result.toArray).toEqual(["a1", "a2", "a3", "a4"]);
+  });
+
+  it("returnKthToLast", () => {
+    const testArray: string[] = ["a1", "a2", "a3"];
+    const testList: LinkedListNode = new LinkedListNode(testArray);
+
+    expect(returnKthToLast(testList, 1)).toEqual("a3");
+    expect(returnKthToLast(testList, 2)).toEqual("a2");
+    expect(returnKthToLast(testList, 3)).toEqual("a1");
+
+    expect(returnKthToLastFast(testList, 1)).toEqual("a3");
+    expect(returnKthToLastFast(testList, 2)).toEqual("a2");
+    expect(returnKthToLastFast(testList, 3)).toEqual("a1");
   });
 });
