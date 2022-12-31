@@ -5,7 +5,7 @@ export class LinkedListNode {
   /**
    * Value of current node
    */
-  public value: string;
+  public value: string | number;
 
   /**
    * Reference of next node. This could be undefined.
@@ -16,14 +16,12 @@ export class LinkedListNode {
    * Builds a linked list from an array of strings.
    * This is helpful for our testing later.
    */
-  constructor(arr: string[]) {
+  constructor(arr: (string | number)[] = []) {
     if (arr.length === 1) {
       this.value = arr[0];
     } else if (arr.length > 1) {
       this.value = arr[0];
       this.next = new LinkedListNode(arr.slice(1));
-    } else {
-      throw new Error("Cannot initiate a linked list with 0 element.");
     }
   }
 
@@ -31,13 +29,13 @@ export class LinkedListNode {
    * Returns the list as an easily readable string.
    */
   public get toJoinedString(): string {
-    return Array.from(this.toArray).join(" => ");
+    return Array.from(this.toStringArray).join(" => ");
   }
 
   /**
    * Converts current linked list to an array.
    */
-  public get toArray(): string[] {
+  public get toArray(): (string | number)[] {
     let currentNode: LinkedListNode = this;
     let result = [currentNode.value];
 
@@ -48,6 +46,14 @@ export class LinkedListNode {
 
     return result;
     // T(n) = O(n), S(n) = O(n)
+  }
+
+  public get toNumberArray(): number[] {
+    return this.toArray.map((value) => Number(value));
+  }
+
+  public get toStringArray(): string[] {
+    return this.toArray.map((value) => value.toString());
   }
 }
 
@@ -60,7 +66,8 @@ export class LinkedListNode {
 export function weave(list: LinkedListNode): LinkedListNode {
   let slowPointer: LinkedListNode | undefined = list;
   let fastPointer: LinkedListNode | undefined = list.next;
-  let result: string[] = []; //TODO do this with S(n) = O(1)?
+  const result: LinkedListNode = new LinkedListNode();
+  let currentResultNode: LinkedListNode = result;
 
   while (fastPointer) {
     slowPointer = slowPointer?.next;
@@ -74,14 +81,21 @@ export function weave(list: LinkedListNode): LinkedListNode {
   while (slowPointer) {
     if (fastPointer?.value && slowPointer.value) {
       // start weaving
-      result.push(fastPointer?.value);
-      result.push(slowPointer.value);
+      currentResultNode.value = fastPointer?.value;
+      const nextNode: LinkedListNode = new LinkedListNode([slowPointer.value]);
+      if (slowPointer.next) {
+        // this HAS TO BE slowPointer.next because fastPointer will enter the 2nd half of the array and still be defined
+        nextNode.next = new LinkedListNode();
+      }
+      currentResultNode.next = nextNode;
+      currentResultNode = nextNode.next;
     }
     slowPointer = slowPointer.next;
     fastPointer = fastPointer?.next;
   }
 
-  return new LinkedListNode(result);
+  return result;
+  // T(n) = O(n), S(n) = O(1)
 }
 
 /**
@@ -90,7 +104,7 @@ export function weave(list: LinkedListNode): LinkedListNode {
  * Do this without a temporary buffer.
  */
 export function removeDuplicatesFrom(list: LinkedListNode): LinkedListNode {
-  return new LinkedListNode([...new Set(list.toArray)]);
+  return new LinkedListNode([...new Set(list.toStringArray)]);
   // T(n) = O(n), S(n) = O(n)
 }
 
@@ -99,7 +113,7 @@ export function removeDuplicatesFrom(list: LinkedListNode): LinkedListNode {
  * Return k-th to last element.
  */
 export function returnKthToLast(list: LinkedListNode, k: number): string {
-  const array: string[] = list.toArray;
+  const array: string[] = list.toStringArray;
   if (k > array.length) {
     throw new Error("Linked list has less than k elements!");
   } else if (k < 1) {
@@ -130,6 +144,55 @@ export function returnKthToLastFast(list: LinkedListNode, k: number): string {
     slowPointer = slowPointer.next;
   }
 
-  return slowPointer.value;
+  return slowPointer.value.toString();
+  // T(n) = O(n), S(n) = O(1)
+}
+
+/**
+ * [CTCI-P94-2.3]
+ * Delete middle node given only access to that node.
+ * e.g.
+ * input: node c from a -> b -> c -> d -> e -> f
+ * output: returns nothing. linked list becomes a -> b -> d -> e -> f
+ */
+export function deleteMiddleNode(node: LinkedListNode): void {
+  if (node === undefined || node.next === undefined) {
+    throw new Error(
+      "Cannot delete node because remaining nodes are undefined."
+    );
+  } else {
+    const nextNode: LinkedListNode = node.next;
+    node.value = nextNode.value;
+    node.next = nextNode.next;
+  }
+}
+
+/**
+ * [CTCI-P94-2.5]
+ * Sum lists that each represents a number in reverse order.
+ * e.g.
+ * input: (7 -> 1 -> 6) + (5 -> 9 -> 2), i.e. 617 + 295
+ * output: 2 -> 1 -> 9, i.e. 912
+ */
+export function sumLists(a: LinkedListNode, b: LinkedListNode): LinkedListNode {
+  const result: LinkedListNode = new LinkedListNode();
+  let currentNode: LinkedListNode = result;
+  let carry: number = 0;
+  while (a || b) {
+    const currentSum: number =
+      Number(a?.value ?? 0) + Number(b?.value ?? 0) + carry;
+    carry = 0;
+    if (currentSum > 9) {
+      carry = 1;
+    }
+    currentNode.value = currentSum % 10;
+    a = a?.next;
+    b = b?.next;
+    if (a || b) {
+      currentNode.next = new LinkedListNode();
+      currentNode = currentNode.next;
+    }
+  }
+  return result;
   // T(n) = O(n), S(n) = O(1)
 }

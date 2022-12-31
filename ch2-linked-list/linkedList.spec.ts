@@ -1,8 +1,10 @@
 import {
   LinkedListNode,
+  deleteMiddleNode,
   removeDuplicatesFrom,
   returnKthToLast,
   returnKthToLastFast,
+  sumLists,
   weave,
 } from "./linkedList";
 
@@ -25,7 +27,14 @@ describe("Linked list", () => {
     const testList: LinkedListNode = new LinkedListNode(testArray);
     const wovenList: LinkedListNode = weave(testList);
 
-    expect(wovenList.toArray).toEqual(["a1", "b1", "a2", "b2", "a3", "b3"]);
+    expect(wovenList.toStringArray).toEqual([
+      "a1",
+      "b1",
+      "a2",
+      "b2",
+      "a3",
+      "b3",
+    ]);
   });
 
   it("removeDuplicatesFrom", () => {
@@ -33,7 +42,7 @@ describe("Linked list", () => {
     const testList: LinkedListNode = new LinkedListNode(testArray);
     const result: LinkedListNode = removeDuplicatesFrom(testList);
 
-    expect(result.toArray).toEqual(["a1", "a2", "a3", "a4"]);
+    expect(result.toStringArray).toEqual(["a1", "a2", "a3", "a4"]);
   });
 
   it("returnKthToLast", () => {
@@ -47,5 +56,30 @@ describe("Linked list", () => {
     expect(returnKthToLastFast(testList, 1)).toEqual("a3");
     expect(returnKthToLastFast(testList, 2)).toEqual("a2");
     expect(returnKthToLastFast(testList, 3)).toEqual("a1");
+  });
+
+  it("deleteMiddleNode", () => {
+    const testArray: string[] = ["a1", "a2", "a3"];
+    const testList: LinkedListNode = new LinkedListNode(testArray);
+    const nodeA2: LinkedListNode = testList.next;
+    deleteMiddleNode(nodeA2);
+    expect(testList.toStringArray).toEqual(["a1", "a3"]);
+  });
+
+  it("sumLists", () => {
+    expect(
+      sumLists(new LinkedListNode([7, 1, 6]), new LinkedListNode([5, 9, 2]))
+        .toNumberArray
+    ).toEqual([2, 1, 9]]);
+
+    expect(
+      sumLists(new LinkedListNode([1, 1, 1]), new LinkedListNode([1]))
+        .toNumberArray
+    ).toEqual([2, 1, 1]]);
+
+    expect(
+      sumLists(new LinkedListNode([9, 2]), new LinkedListNode([2, 3, 2]))
+        .toNumberArray
+    ).toEqual([1, 6, 2]);
   });
 });
