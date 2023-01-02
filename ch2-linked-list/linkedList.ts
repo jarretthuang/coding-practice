@@ -196,3 +196,51 @@ export function sumLists(a: LinkedListNode, b: LinkedListNode): LinkedListNode {
   return result;
   // T(n) = O(n), S(n) = O(1)
 }
+
+/**
+ * [CTCI-P94-2.5]
+ * Checks if list is a palindrome.
+ * Palindrome: a word, phrase, or sequence that reads the same backward as forward, e.g., madam.
+ */
+export function isPalindrome(list: LinkedListNode): boolean {
+  let slowPointer: LinkedListNode = list;
+  let fastPointer: LinkedListNode = list.next;
+  let reverseSlowPointer: LinkedListNode = new LinkedListNode([list.value]);
+
+  while (fastPointer?.next) {
+    slowPointer = slowPointer.next;
+
+    const newHeadOfReverseList: LinkedListNode = new LinkedListNode([
+      slowPointer.value,
+    ]);
+    newHeadOfReverseList.next = reverseSlowPointer;
+    reverseSlowPointer = newHeadOfReverseList;
+
+    fastPointer = fastPointer.next?.next;
+  }
+
+  const isListEven: boolean = fastPointer !== undefined;
+  if (isListEven) {
+    slowPointer = slowPointer.next;
+  }
+
+  let result: boolean = false;
+  while (slowPointer && reverseSlowPointer) {
+    result = slowPointer.value === reverseSlowPointer.value;
+    slowPointer = slowPointer.next;
+    reverseSlowPointer = reverseSlowPointer.next;
+  }
+  return result;
+  // T(n) = O(n), S(n) = O(1)
+}
+// Test with examples:
+
+// a, b, c, b2, a2
+// slow:     a b  c
+// fast:     b b2 undefined
+// reverse:  a ba cba
+
+// a, b, b2, a2
+// slow:    a b
+// fast:    b a2
+// reverse: a ba

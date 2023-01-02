@@ -1,6 +1,7 @@
 import {
   LinkedListNode,
   deleteMiddleNode,
+  isPalindrome,
   removeDuplicatesFrom,
   returnKthToLast,
   returnKthToLastFast,
@@ -70,16 +71,23 @@ describe("Linked list", () => {
     expect(
       sumLists(new LinkedListNode([7, 1, 6]), new LinkedListNode([5, 9, 2]))
         .toNumberArray
-    ).toEqual([2, 1, 9]]);
+    ).toEqual([2, 1, 9]);
 
     expect(
       sumLists(new LinkedListNode([1, 1, 1]), new LinkedListNode([1]))
         .toNumberArray
-    ).toEqual([2, 1, 1]]);
+    ).toEqual([2, 1, 1]);
 
     expect(
       sumLists(new LinkedListNode([9, 2]), new LinkedListNode([2, 3, 2]))
         .toNumberArray
     ).toEqual([1, 6, 2]);
+  });
+
+  it("isPalindrome", () => {
+    expect(isPalindrome(new LinkedListNode([1, 2, 1]))).toBe(true);
+    expect(isPalindrome(new LinkedListNode([1, 2, 2, 1]))).toBe(true);
+    expect(isPalindrome(new LinkedListNode([1, 2, 3, 4]))).toBe(false);
+    expect(isPalindrome(new LinkedListNode([1]))).toBe(true);
   });
 });
