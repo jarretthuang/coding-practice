@@ -55,6 +55,20 @@ export class LinkedListNode {
   public get toStringArray(): string[] {
     return this.toArray.map((value) => value.toString());
   }
+
+  public get toReverseList(): LinkedListNode {
+    let resultBuilder: LinkedListNode = new LinkedListNode([this.value]);
+    let pointer: LinkedListNode = this;
+    while (pointer.next) {
+      const newResultHead: LinkedListNode = new LinkedListNode([
+        pointer.next.value,
+      ]);
+      newResultHead.next = resultBuilder;
+      resultBuilder = newResultHead;
+      pointer = pointer.next;
+    }
+    return resultBuilder;
+  }
 }
 
 /**
@@ -244,3 +258,16 @@ export function isPalindrome(list: LinkedListNode): boolean {
 // slow:    a b
 // fast:    b a2
 // reverse: a ba
+
+/**
+ * [CTCI-P94-2.6]
+ * Checks if two lists intersect.
+ * Returns the intersecting node. (Determined by reference not by value)
+ */
+export function intersection(
+  a: LinkedListNode,
+  b: LinkedListNode
+): LinkedListNode {
+  // TODO
+  return a;
+}

@@ -1,6 +1,7 @@
 import {
   LinkedListNode,
   deleteMiddleNode,
+  intersection,
   isPalindrome,
   removeDuplicatesFrom,
   returnKthToLast,
@@ -21,6 +22,13 @@ describe("Linked list", () => {
     expect(testList.value).toEqual(firstItem);
     expect(testList.next?.value).toEqual(secondItem);
     expect(testList.next?.next?.value).toEqual(thirdItem);
+  });
+
+  it("toReverseList", () => {
+    expect(new LinkedListNode([1, 2, 3]).toReverseList.toNumberArray).toEqual([
+      3, 2, 1,
+    ]);
+    expect(new LinkedListNode([1]).toReverseList.toNumberArray).toEqual([1]);
   });
 
   it("weave", () => {
@@ -89,5 +97,19 @@ describe("Linked list", () => {
     expect(isPalindrome(new LinkedListNode([1, 2, 2, 1]))).toBe(true);
     expect(isPalindrome(new LinkedListNode([1, 2, 3, 4]))).toBe(false);
     expect(isPalindrome(new LinkedListNode([1]))).toBe(true);
+  });
+
+  it("intersection", () => {
+    // A -> B -> C -> D
+    const testList1: LinkedListNode = new LinkedListNode(["A", "B", "C", "D"]);
+
+    // X -> Y -> C -> D
+    const testList2: LinkedListNode = new LinkedListNode(["X", "Y"]);
+    testList2.next.next = testList1.next.next;
+
+    const testList3: LinkedListNode = new LinkedListNode(["B", "C", "D"]);
+
+    expect(intersection(testList1, testList2)).toBe(testList1.next.next);
+    expect(intersection(testList2, testList3)).toBe(undefined);
   });
 });
